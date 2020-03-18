@@ -13,25 +13,19 @@ slack_events_adapter = SlackEventAdapter(os.environ['SLACK_SIGNING_SECRET'], "/s
 # Initialize a Web API client
 slack_web_client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
 
-
-# ============== Message Events ============= #
-# When a user sends a DM, the event type will be 'message'.
-# Here we'll link the message callback to the 'message' event.
-@slack_events_adapter.on("message")
-def message(payload):
-    """Display the onboarding welcome message after receiving a message
-    that contains "start".
+@slack_events_adapter.on("app_mention")
+def app_mention(payload):
+    """
+        When someone mentions the app in the 'what_the_hecky' channel, repeat
+        back exactly what they say
     """
     event = payload.get("event", {})
-
-    channel_id = event.get("channel")
     user_id = event.get("user")
     text = event.get("text")
-    print("deb was here")
 
     slack_web_client.chat_postMessage(
-        channel=user_id,
-        text="Hello world!")
+        channel='what_the_hecky',
+        text=text)
 
 if __name__ == "__main__":
     logger = logging.getLogger()
