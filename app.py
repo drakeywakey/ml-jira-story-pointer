@@ -27,6 +27,10 @@ def app_mention(payload):
         channel='what_the_hecky',
         text=text)
 
+@app.route('/')
+def welcome():
+    return 'Running the yerba!'
+    
 if __name__ == "__main__":
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
