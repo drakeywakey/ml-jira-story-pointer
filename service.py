@@ -18,7 +18,7 @@ options = {
     'server': 'https://itcentral.chgcompanies.com/jira'
 }
 
-jira = JIRA(options, basic_auth=('drichins', os.getenv('JIRA_PASS')))
+jira = JIRA(options, basic_auth=(os.getenv('JIRA_USER'), os.getenv('JIRA_PASS')))
 
 # customfield_10284 = epic
 # customfield_11281 = user story
