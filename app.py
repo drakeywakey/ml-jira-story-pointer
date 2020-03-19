@@ -37,4 +37,4 @@ if __name__ == "__main__":
     logger.addHandler(logging.StreamHandler())
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
     port = int(os.environ.get("PORT", 3000))
-    app.run(port=port)
+    app.run(host='0.0.0.0', port=port)
