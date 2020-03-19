@@ -73,6 +73,4 @@ def predict(ticket):
     issue = jira.issue(ticket)
     summary = issue.fields.summary
     pred = model.predict(count_vect.transform([summary]))
-    return pred
-
-# print(predict('LTC-8464'))
+    return f'{pred[0]}'

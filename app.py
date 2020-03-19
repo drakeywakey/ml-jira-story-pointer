@@ -23,12 +23,13 @@ def app_mention(payload):
         back exactly what they say
     """
     event = payload.get("event", {})
-    user_id = event.get("user")
     text = event.get("text")
+    ticket = text.split(' ')[1]
+    # todo: verify ticket is in format PXT-#
 
     slack_web_client.chat_postMessage(
         channel=os.environ.get("SLACK_CHANNEL", "general"),
-        text=predict(text))
+        text=predict(ticket))
 
 @app.route('/')
 def welcome():
