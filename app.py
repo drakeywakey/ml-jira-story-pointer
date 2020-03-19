@@ -24,7 +24,7 @@ def app_mention(payload):
     text = event.get("text")
 
     slack_web_client.chat_postMessage(
-        channel='what_the_hecky',
+        channel=os.environ.get("SLACK_CHANNEL", "general"),
         text=text)
 
 @app.route('/')
