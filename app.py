@@ -30,10 +30,11 @@ def app_mention(payload):
 @app.route('/')
 def welcome():
     return 'Running the yerba!'
-    
+
 if __name__ == "__main__":
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
-    app.run(port=3000)
+    port = int(os.environ.get("PORT", 3000))
+    app.run(port=port)
