@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import os
 import logging
 from flask import Flask
@@ -5,13 +6,15 @@ from slack import WebClient
 from slackeventsapi import SlackEventAdapter
 import ssl as ssl_lib
 import certifi
+from service import predict
 
 # Initialize a Flask app to host the events adapter
+load_dotenv()
 app = Flask(__name__)
-slack_events_adapter = SlackEventAdapter(os.environ['SLACK_SIGNING_SECRET'], "/slack/events", app)
+slack_events_adapter = SlackEventAdapter(os.getenv('SLACK_SIGNING_SECRET'), "/slack/events", app)
 
 # Initialize a Web API client
-slack_web_client = WebClient(token=os.environ['SLACK_BOT_TOKEN'])
+slack_web_client = WebClient(token=os.getenv('SLACK_BOT_TOKEN'))
 
 @slack_events_adapter.on("app_mention")
 def app_mention(payload):
@@ -25,7 +28,7 @@ def app_mention(payload):
 
     slack_web_client.chat_postMessage(
         channel=os.environ.get("SLACK_CHANNEL", "general"),
-        text=text)
+        text=predict(text))
 
 @app.route('/')
 def welcome():

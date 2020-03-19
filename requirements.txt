@@ -7,3 +7,4 @@ pandas
 matplotlib
 sklearn
 seaborn
+python-dotenv

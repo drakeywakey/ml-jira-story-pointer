@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 from jira import JIRA
 import os
 import pandas as pd
@@ -11,12 +12,13 @@ from sklearn.metrics import confusion_matrix
 import seaborn as sns
 
 
+load_dotenv()
 
 options = {
     'server': 'https://itcentral.chgcompanies.com/jira'
 }
 
-jira = JIRA(options, basic_auth=('walleman', os.environ['JIRA_PASS']))
+jira = JIRA(options, basic_auth=('drichins', os.getenv('JIRA_PASS')))
 
 # customfield_10284 = epic
 # customfield_11281 = user story
@@ -58,11 +60,19 @@ tfidf_transformer = TfidfTransformer()
 X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 model = MultinomialNB().fit(X_train_tfidf, y_train)
 
-y_pred = model.predict(count_vect.transform(X_test))
-conf_mat = confusion_matrix(y_test, y_pred)
-fig, ax = plt.subplots(figsize=(10,10))
-sns.heatmap(conf_mat, annot=True, fmt='d')
-plt.ylabel('Actual')
-plt.xlabel('Predicted')
-plt.show()
-print(conf_mat)
+# y_pred = model.predict(count_vect.transform(X_test))
+# conf_mat = confusion_matrix(y_test, y_pred)
+# fig, ax = plt.subplots(figsize=(10,10))
+# sns.heatmap(conf_mat, annot=True, fmt='d')
+# plt.ylabel('Actual')
+# plt.xlabel('Predicted')
+# plt.show()
+# print(conf_mat)
+
+def predict(ticket):
+    issue = jira.issue(ticket)
+    summary = issue.fields.summary
+    pred = model.predict(count_vect.transform([summary]))
+    return pred
+
+# print(predict('LTC-8464'))

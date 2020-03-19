@@ -1,3 +1,5 @@
 Lib
 Scripts
 pyvenv.cfg
+.env
+__pycache__
