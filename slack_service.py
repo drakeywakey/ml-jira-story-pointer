@@ -8,8 +8,6 @@ from main import app
 load_dotenv()
 slack_events_adapter = SlackEventAdapter(os.getenv('SLACK_SIGNING_SECRET'), "/slack/events", app)
 
-print(app)
-
 # Initialize a Web API client
 slack_web_client = WebClient(token=os.getenv('SLACK_BOT_TOKEN'))
 
