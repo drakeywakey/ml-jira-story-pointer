@@ -8,6 +8,7 @@ import ssl as ssl_lib
 import certifi
 from service import predict
 
+
 # Initialize a Flask app to host the events adapter
 load_dotenv()
 app = Flask(__name__)
